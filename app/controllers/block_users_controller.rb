@@ -2,7 +2,6 @@ class BlockUsersController < ApplicationController
   before_action :require_login
   before_action :find_user, only: [:delete_user]
   before_action :find_issue, only: [:delete_user]
-  before_action :authorize_global, only: [:delete_user]
 
   def delete_user
     # Check if the current issue is in the configured blocked ticket IDs
@@ -16,14 +15,7 @@ class BlockUsersController < ApplicationController
       return
     end
 
-    # Check if user has permission to delete users
-    unless User.current.allowed_to_globally?(:block_users_from_tickets)
-      render json: { 
-        success: false, 
-        message: l(:error_permission_denied) 
-      }, status: :forbidden
-      return
-    end
+    # No permission check - any logged-in user who can view the ticket can delete users
 
     # Prevent deletion of admin users or current user
     if @user.admin? || @user == User.current

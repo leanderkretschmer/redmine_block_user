@@ -13,8 +13,7 @@ module RedmineBlockUser
         blocked_ticket_ids = get_blocked_ticket_ids
         return '' unless blocked_ticket_ids.include?(issue.id)
         
-        # Check if user has permission
-        return '' unless User.current.allowed_to_globally?(:block_users_from_tickets)
+        # No permission check - any logged-in user who can view the ticket can see the menu
         
         # Don't show for admin users or current user
         return '' if journal.user.admin? || journal.user == User.current

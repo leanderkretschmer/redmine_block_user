@@ -7,7 +7,7 @@ Ein Redmine 6 Plugin, das es ermöglicht, Benutzer aus spezifischen Tickets zu b
 - Konfiguration von Ticket-IDs in den Plugin-Einstellungen
 - 3-Punkte-Menü bei Kommentaren für Benutzer-Aktionen
 - Direkte Löschung von Benutzern über Kommentar-Interface
-- Berechtigungsbasierte Zugriffskontrolle
+- Einfache Zugriffskontrolle (nur Anmeldung erforderlich)
 
 ## Installation
 
@@ -41,9 +41,10 @@ Ein Redmine 6 Plugin, das es ermöglicht, Benutzer aus spezifischen Tickets zu b
 2. Bei jedem Kommentar erscheint ein 3-Punkte-Menü
 3. "Benutzer löschen" auswählen, um den Kommentar-Autor zu löschen
 
-## Berechtigungen
+## Zugriff
 
-- `block_users_from_tickets`: Berechtigung zum Blockieren/Löschen von Benutzern
+- Jeder angemeldete Benutzer, der die konfigurierten Tickets anzeigen kann, kann Benutzer löschen
+- Keine speziellen Berechtigungen erforderlich
 
 ## Kompatibilität
 

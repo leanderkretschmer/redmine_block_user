@@ -14,10 +14,7 @@ Redmine::Plugin.register :redmine_block_user do
     'blocked_ticket_ids' => ''
   }, partial: 'settings/redmine_block_user_settings'
 
-  # Add permissions
-  permission :block_users_from_tickets, {
-    block_users: [:block_user, :unblock_user]
-  }, require: :member
+  # No special permissions required - any logged-in user can delete users from configured tickets
 
   # Add menu item to administration menu
   menu :admin_menu, :redmine_block_user, 

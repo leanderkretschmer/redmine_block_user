@@ -59,12 +59,9 @@ sudo service redmine restart
 4. Ticket-IDs eingeben (kommagetrennt), für die die Funktion aktiviert werden soll
 5. Einstellungen speichern
 
-### 2. Berechtigungen setzen
+### 2. Fertig!
 
-1. Zu "Administration" → "Roles and permissions" navigieren
-2. Gewünschte Rolle auswählen
-3. Berechtigung "Block users from tickets" aktivieren
-4. Speichern
+Das Plugin ist sofort einsatzbereit. Alle angemeldeten Benutzer, die die konfigurierten Tickets anzeigen können, haben automatisch Zugriff auf die Benutzer-Löschfunktion.
 
 ## Verwendung
 
@@ -98,14 +95,14 @@ touch tmp/restart.txt
 ### 3-Punkte-Menü erscheint nicht
 
 - Überprüfen Sie, ob die Ticket-ID in den Plugin-Einstellungen konfiguriert ist
-- Stellen Sie sicher, dass der Benutzer die erforderlichen Berechtigungen hat
+- Stellen Sie sicher, dass der Benutzer angemeldet ist und das Ticket anzeigen kann
 - Überprüfen Sie, ob JavaScript und CSS korrekt geladen werden
 
 ### Benutzer kann nicht gelöscht werden
 
 - Administrator-Benutzer können nicht gelöscht werden
 - Benutzer können sich nicht selbst löschen
-- Überprüfen Sie die Berechtigungen
+- Stellen Sie sicher, dass der Benutzer angemeldet ist
 
 ## Support
 
