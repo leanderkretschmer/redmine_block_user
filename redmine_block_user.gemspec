@@ -14,10 +14,12 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,lib,assets}/**/*"] + ["init.rb", "README.md"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "rails", ">= 7.0"
+  # Runtime dependencies
+  # Note: Rails and other core dependencies are provided by Redmine
+  # Only add plugin-specific runtime dependencies here if needed
   
-  s.add_development_dependency "rspec-rails"
-  s.add_development_dependency "factory_bot_rails"
-  s.add_development_dependency "capybara"
-  s.add_development_dependency "selenium-webdriver"
+  # Development dependencies are handled by the main Redmine installation
+  # Uncomment and modify these only if you need specific versions for development
+  # s.add_development_dependency "rspec-rails"
+  # s.add_development_dependency "factory_bot_rails"
 end

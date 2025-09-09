@@ -1,12 +1,6 @@
-source 'https://rubygems.org'
+# Plugin Gemfile for redmine_block_user
+# Note: This file is evaluated by Redmine's main Gemfile
+# Avoid specifying gems that are already defined in Redmine's Gemfile
 
-# Specify your gem's dependencies in redmine_block_user.gemspec
-gemspec
-
-# Development dependencies
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-end
+# Only add plugin-specific dependencies here if needed
+# Development and test dependencies should be handled by the main Redmine installation
