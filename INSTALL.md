@@ -20,8 +20,10 @@ git clone https://github.com/yourusername/redmine_block_user.git
 
 ```bash
 cd /path/to/your/redmine
-bundle install --without development test
+bundle install
 ```
+
+**Hinweis:** Das Plugin verwendet keine zusätzlichen Gem-Abhängigkeiten, da alle benötigten Bibliotheken bereits von Redmine bereitgestellt werden.
 
 ### 3. Datenbank migrieren (falls erforderlich)
 
