@@ -51,28 +51,22 @@ class BlockUsersController < ApplicationController
   def search_tickets
     query = params[:q].to_s.strip
     
-    if query.blank?
-      render json: []
-      return
+    if query.present? && query.match?(/^\d+$/)
+      # Search for issues by ID only
+      issue = Issue.visible.find_by(id: query.to_i)
+      
+      if issue
+        tickets = [{
+          id: issue.id,
+          subject: issue.subject
+        }]
+        render json: { tickets: tickets }
+      else
+        render json: { tickets: [] }
+      end
+    else
+      render json: { tickets: [] }
     end
-    
-    # Suche nach Tickets basierend auf ID oder Betreff
-    tickets = Issue.visible
-                   .where("id = ? OR LOWER(subject) LIKE ?", 
-                          query.to_i, "%#{query.downcase}%")
-                   .limit(10)
-                   .includes(:project)
-    
-    results = tickets.map do |ticket|
-      {
-        id: ticket.id,
-        subject: ticket.subject,
-        project: ticket.project.name,
-        display: "##{ticket.id} - #{ticket.subject} (#{ticket.project.name})"
-      }
-    end
-    
-    render json: results
   end
 
   private

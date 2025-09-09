@@ -32,72 +32,123 @@
 
 /* Ticket Search Styles */
 .ticket-search-section {
-  margin-bottom: 15px;
-  padding: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
   background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.ticket-search-section p {
-  margin-bottom: 10px;
+.ticket-search-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 #ticket_search_input {
   width: 300px;
-  margin-right: 10px;
-  padding: 4px 8px;
+  padding: 6px 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
-}
-
-#add_ticket_btn {
-  padding: 4px 12px;
-  background-color: #169;
-  color: white;
-  border: 1px solid #169;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-#add_ticket_btn:hover {
-  background-color: #147;
 }
 
 .search-results {
-  position: relative;
-  background: white;
-  border: 1px solid #ccc;
+  margin-top: 10px;
+  border: 1px solid #ddd;
   border-radius: 3px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: white;
   max-height: 200px;
   overflow-y: auto;
-  margin-top: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .search-result-item {
   padding: 8px 12px;
-  cursor: pointer;
   border-bottom: 1px solid #eee;
-  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .search-result-item:last-child {
   border-bottom: none;
 }
 
-.search-result-item:hover {
-  background-color: #f0f0f0;
-}
-
-.search-result-item.no-results {
+.search-result-item.no-results,
+.search-result-item.error {
+  justify-content: center;
   color: #666;
   font-style: italic;
-  cursor: default;
 }
 
-.search-result-item.no-results:hover {
-  background-color: transparent;
+.search-result-item.error {
+  color: #d30;
+}
+
+.add-ticket-btn {
+  padding: 4px 8px;
+  background-color: #169;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.add-ticket-btn:hover {
+  background-color: #147;
+}
+
+/* Added Tickets Section */
+.added-tickets-section {
+  margin-bottom: 20px;
+}
+
+.added-tickets-section h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.added-tickets-list {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  min-height: 50px;
+  padding: 10px;
+}
+
+.added-ticket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.added-ticket-item:last-child {
+  margin-bottom: 0;
+}
+
+.ticket-info {
+  flex-grow: 1;
+  font-weight: bold;
+}
+
+.remove-ticket-btn {
+  padding: 4px 8px;
+  background-color: #d30;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.remove-ticket-btn:hover {
+  background-color: #b30;
 }
 
 /* Integration with Redmine journal styles */
@@ -119,6 +170,22 @@
   
   .dropdown-item {
     padding: 8px 10px;
+  }
+  
+  #ticket_search_input {
+    width: 100%;
+  }
+  
+  .search-result-item,
+  .added-ticket-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .add-ticket-btn,
+  .remove-ticket-btn {
+    margin-top: 5px;
+    align-self: flex-end;
   }
 }
 

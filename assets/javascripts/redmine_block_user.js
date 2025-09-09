@@ -1,33 +1,44 @@
 $(document).ready(function() {
-  // Event-Handler für Benutzer löschen (direkter Button in Aktionsleiste)
+  // Event handler for delete user button in action bar
   $(document).on('click', '.delete-user-link', function(e) {
     e.preventDefault();
     
-    var userId = $(this).data('user-id');
-    var userName = $(this).data('user-name');
-    
-    if (confirm('Sind Sie sicher, dass Sie den Benutzer "' + userName + '" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-      $.ajax({
-        url: '/block_users/delete_user',
-        type: 'POST',
-        data: {
-          user_id: userId,
-          authenticity_token: $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-          if (response.success) {
-            alert('Benutzer erfolgreich gelöscht.');
-            // Seite neu laden, um die Änderungen zu zeigen
-            location.reload();
-          } else {
-            alert('Fehler: ' + response.message);
-          }
-        },
-        error: function() {
-          alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
-        }
-      });
+    if (!confirm('Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?')) {
+      return;
     }
+    
+    var $link = $(this);
+    var userId = $link.data('user-id');
+    
+    $.ajax({
+      url: '/block_users/delete_user',
+      type: 'POST',
+      data: {
+        user_id: userId,
+        authenticity_token: $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+        if (response.success) {
+          // Remove the journal entry from the DOM
+          $link.closest('.journal').fadeOut(300, function() {
+            $(this).remove();
+          });
+          
+          // Show success message
+          if (response.message) {
+            $('<div class="flash notice">' + response.message + '</div>')
+              .prependTo('#content')
+              .delay(3000)
+              .fadeOut();
+          }
+        } else {
+          alert('Fehler: ' + (response.message || 'Unbekannter Fehler'));
+        }
+      },
+      error: function(xhr, status, error) {
+        alert('Fehler beim Löschen des Benutzers: ' + error);
+      }
+    });
   });
   
   // Handle delete user button click
@@ -98,107 +109,168 @@ $(document).ready(function() {
     });
   });
   
-  // Ticket-Suche mit Autocomplete
+  // Ticket search functionality
   var searchTimeout;
-  var currentResults = [];
-  
-  $('#ticket_search_input').on('input', function() {
+  var $searchInput = $('#ticket_search_input');
+  var $searchResults = $('#search_results');
+  var $addedTicketsList = $('#added_tickets_list');
+  var $hiddenField = $('#blocked_ticket_ids_hidden');
+
+  // Load existing tickets on page load
+  loadExistingTickets();
+
+  // Handle input in search field
+  $searchInput.on('input', function() {
     var query = $(this).val().trim();
-    var resultsDiv = $('#search_results');
     
     clearTimeout(searchTimeout);
     
-    if (query.length < 2) {
-      resultsDiv.hide().empty();
+    if (query.length < 1) {
+      $searchResults.hide().empty();
       return;
     }
     
     searchTimeout = setTimeout(function() {
-      $.ajax({
-        url: '/block_users/search_tickets',
-        type: 'GET',
-        data: { q: query },
-        success: function(tickets) {
-          currentResults = tickets;
-          displaySearchResults(tickets);
-        },
-        error: function() {
-          resultsDiv.hide().empty();
-        }
-      });
+      searchTickets(query);
     }, 300);
   });
-  
+
+  // Search for tickets by ID
+  function searchTickets(query) {
+    // Only search if query looks like a number (ticket ID)
+    if (!/^\d+$/.test(query)) {
+      $searchResults.html('<div class="search-result-item no-results">Bitte geben Sie eine Ticket-ID ein</div>').show();
+      return;
+    }
+
+    $.ajax({
+      url: '/block_users/search_tickets',
+      type: 'GET',
+      data: { q: query },
+      success: function(response) {
+        displaySearchResults(response.tickets || []);
+      },
+      error: function() {
+        $searchResults.html('<div class="search-result-item error">Fehler bei der Suche</div>').show();
+      }
+    });
+  }
+
+  // Display search results
   function displaySearchResults(tickets) {
-    var resultsDiv = $('#search_results');
-    resultsDiv.empty();
+    $searchResults.empty();
     
     if (tickets.length === 0) {
-      resultsDiv.html('<div class="search-result-item no-results">Keine Tickets gefunden</div>');
-      resultsDiv.show();
+      $searchResults.html('<div class="search-result-item no-results">Kein Ticket mit dieser ID gefunden</div>').show();
       return;
     }
     
     tickets.forEach(function(ticket) {
-      var item = $('<div class="search-result-item" data-ticket-id="' + ticket.id + '">' + 
-                   ticket.display + '</div>');
-      resultsDiv.append(item);
+      var $item = $('<div class="search-result-item" data-ticket-id="' + ticket.id + '">' +
+                   '<strong>#' + ticket.id + '</strong> - ' + ticket.subject +
+                   '<button type="button" class="add-ticket-btn">Hinzufügen</button>' +
+                   '</div>');
+      
+      $item.find('.add-ticket-btn').on('click', function(e) {
+        e.stopPropagation();
+        addTicket(ticket);
+      });
+      
+      $searchResults.append($item);
     });
     
-    resultsDiv.show();
+    $searchResults.show();
   }
-  
-  // Ticket aus Suchergebnissen auswählen
-  $(document).on('click', '.search-result-item', function() {
-    var ticketId = $(this).data('ticket-id');
-    if (ticketId) {
-      addTicketToList(ticketId);
-      $('#ticket_search_input').val('');
-      $('#search_results').hide().empty();
-    }
-  });
-  
-  // Ticket über Button hinzufügen
-  $('#add_ticket_btn').on('click', function() {
-    var query = $('#ticket_search_input').val().trim();
+
+  // Add ticket to the list
+  function addTicket(ticket) {
+    // Get current ticket IDs
+    var currentIds = getCurrentTicketIds();
     
-    // Prüfe ob es eine direkte ID ist
-    if (/^\d+$/.test(query)) {
-      addTicketToList(parseInt(query));
-      $('#ticket_search_input').val('');
-      $('#search_results').hide().empty();
-    } else if (currentResults.length === 1) {
-      // Wenn nur ein Suchergebnis vorhanden ist, füge es hinzu
-      addTicketToList(currentResults[0].id);
-      $('#ticket_search_input').val('');
-      $('#search_results').hide().empty();
-    } else {
-      alert('Bitte wählen Sie ein Ticket aus den Suchergebnissen aus oder geben Sie eine gültige Ticket-ID ein.');
+    // Check if ticket is already added
+    if (currentIds.indexOf(ticket.id.toString()) !== -1) {
+      alert('Dieses Ticket wurde bereits hinzugefügt.');
+      return;
     }
-  });
-  
-  function addTicketToList(ticketId) {
-    var textarea = $('#blocked_ticket_ids_textarea');
-    var currentIds = textarea.val().split('\n').map(function(id) {
+    
+    // Add ticket ID to the list
+    currentIds.push(ticket.id.toString());
+    updateTicketIds(currentIds);
+    
+    // Add ticket to visual list
+    addTicketToList(ticket);
+    
+    // Clear search
+    $searchInput.val('');
+    $searchResults.hide();
+  }
+
+  // Add ticket to visual list
+  function addTicketToList(ticket) {
+    var $ticketItem = $('<div class="added-ticket-item" data-ticket-id="' + ticket.id + '">' +
+                       '<span class="ticket-info">#' + ticket.id + ' - ' + ticket.subject + '</span>' +
+                       '<button type="button" class="remove-ticket-btn">Entfernen</button>' +
+                       '</div>');
+    
+    $ticketItem.find('.remove-ticket-btn').on('click', function() {
+      removeTicket(ticket.id);
+    });
+    
+    $addedTicketsList.append($ticketItem);
+  }
+
+  // Remove ticket from list
+  function removeTicket(ticketId) {
+    var currentIds = getCurrentTicketIds();
+    var index = currentIds.indexOf(ticketId.toString());
+    
+    if (index > -1) {
+      currentIds.splice(index, 1);
+      updateTicketIds(currentIds);
+    }
+    
+    $addedTicketsList.find('[data-ticket-id="' + ticketId + '"]').remove();
+  }
+
+  // Get current ticket IDs from hidden field
+  function getCurrentTicketIds() {
+    var value = $hiddenField.val() || '';
+    return value.split(',').map(function(id) {
       return id.trim();
     }).filter(function(id) {
       return id !== '';
     });
+  }
+
+  // Update ticket IDs in hidden field
+  function updateTicketIds(ids) {
+    $hiddenField.val(ids.join(', '));
+  }
+
+  // Load existing tickets on page load
+  function loadExistingTickets() {
+    var currentIds = getCurrentTicketIds();
     
-    var ticketIdStr = ticketId.toString();
-    
-    if (currentIds.indexOf(ticketIdStr) === -1) {
-      currentIds.push(ticketIdStr);
-      textarea.val(currentIds.join('\n'));
-    } else {
-      alert('Ticket bereits hinzugefügt');
-    }
+    currentIds.forEach(function(ticketId) {
+      // Fetch ticket info and add to list
+      $.ajax({
+        url: '/block_users/search_tickets',
+        type: 'GET',
+        data: { q: ticketId },
+        success: function(response) {
+          if (response.tickets && response.tickets.length > 0) {
+            var ticket = response.tickets[0];
+            addTicketToList(ticket);
+          }
+        }
+      });
+    });
   }
   
-  // Suchergebnisse ausblenden wenn außerhalb geklickt wird
+  // Hide search results when clicking outside
   $(document).on('click', function(e) {
     if (!$(e.target).closest('.ticket-search-section').length) {
-      $('#search_results').hide();
+      $searchResults.hide();
     }
   });
   
