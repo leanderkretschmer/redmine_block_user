@@ -3,11 +3,11 @@
 
 Redmine::Plugin.register :redmine_block_user do
   name 'Redmine Block User Plugin'
-  author 'Your Name'
+  author 'Leander Kretschmer'
   description 'Allows blocking/deleting users from specific tickets via comment actions'
   version '1.0.0'
-  url 'https://github.com/yourusername/redmine_block_user'
-  author_url 'https://github.com/yourusername'
+  url 'https://github.com/leanderkretschmer/redmine_block_user'
+  author_url 'https://github.com/leanderkretschmer'
 
   # Plugin settings
   settings default: {
