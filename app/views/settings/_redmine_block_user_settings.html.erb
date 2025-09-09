@@ -1,0 +1,15 @@
+<p>
+  <%= content_tag :label, l(:label_blocked_ticket_ids) %>
+  <%= text_area_tag 'settings[blocked_ticket_ids]', @settings['blocked_ticket_ids'], 
+                    :rows => 5, :cols => 60, 
+                    :placeholder => l(:placeholder_blocked_ticket_ids) %>
+</p>
+
+<p class="description">
+  <%= l(:description_blocked_ticket_ids) %>
+</p>
+
+<fieldset class="box">
+  <legend><%= l(:label_permissions_info) %></legend>
+  <p><%= l(:text_permissions_info) %></p>
+</fieldset>

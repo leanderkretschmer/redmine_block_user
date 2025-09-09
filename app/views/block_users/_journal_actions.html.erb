@@ -1,0 +1,68 @@
+<div class="block-user-actions" data-user-id="<%= user.id %>" data-issue-id="<%= issue.id %>">
+  <div class="dropdown">
+    <button class="btn btn-sm dropdown-toggle block-user-menu-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="fas fa-ellipsis-v"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="dropdown-item delete-user-btn" href="#" 
+         data-user-id="<%= user.id %>" 
+         data-issue-id="<%= issue.id %>"
+         data-user-name="<%= h(user.name) %>">
+        <i class="fas fa-trash"></i> <%= l(:button_delete_user) %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.block-user-actions {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.block-user-menu-btn {
+  background: none;
+  border: 1px solid #ddd;
+  color: #666;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.block-user-menu-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+}
+
+.dropdown-menu {
+  min-width: 150px;
+  font-size: 13px;
+}
+
+.dropdown-item {
+  padding: 6px 12px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.dropdown-item i {
+  margin-right: 8px;
+  width: 14px;
+}
+
+.delete-user-btn {
+  color: #dc3545 !important;
+}
+
+.delete-user-btn:hover {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}
+</style>

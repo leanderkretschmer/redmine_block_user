@@ -1,0 +1,152 @@
+/* Redmine Block User Plugin Styles */
+
+.block-user-actions {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.block-user-menu-btn {
+  background: none;
+  border: 1px solid #ddd;
+  color: #666;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.block-user-menu-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  color: #333;
+}
+
+.block-user-menu-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 13px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  text-decoration: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #f5f5f5;
+  color: #262626;
+  text-decoration: none;
+}
+
+.dropdown-item i {
+  margin-right: 8px;
+  width: 14px;
+  text-align: center;
+}
+
+.delete-user-btn {
+  color: #dc3545 !important;
+}
+
+.delete-user-btn:hover,
+.delete-user-btn:focus {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}
+
+.delete-user-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Integration with Redmine journal styles */
+.journal .block-user-actions {
+  float: right;
+  margin-top: -2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .block-user-actions {
+    margin-left: 5px;
+  }
+  
+  .dropdown-menu {
+    min-width: 140px;
+    font-size: 12px;
+  }
+  
+  .dropdown-item {
+    padding: 8px 10px;
+  }
+}
+
+/* Flash message improvements */
+#flash_notice,
+#flash_error {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+#flash_notice {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+#flash_error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Loading spinner */
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
