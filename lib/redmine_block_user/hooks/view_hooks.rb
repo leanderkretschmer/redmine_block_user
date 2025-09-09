@@ -2,7 +2,7 @@ module RedmineBlockUser
   module Hooks
     class ViewHooks < Redmine::Hook::ViewListener
       
-      # Hook to add the delete user button to journal entries (comments)
+      # Hook to add the delete user button directly to journal actions bar
       def view_issues_history_journal_bottom(context = {})
         journal = context[:journal]
         issue = context[:issue]
@@ -13,19 +13,35 @@ module RedmineBlockUser
         blocked_ticket_ids = get_blocked_ticket_ids
         return '' unless blocked_ticket_ids.include?(issue.id)
         
-        # No permission check - any logged-in user who can view the ticket can see the menu
+        # No permission check - any logged-in user who can view the ticket can see the button
         
         # Don't show for admin users or current user
         return '' if journal.user.admin? || journal.user == User.current
         
-        context[:controller].send(:render_to_string, {
-          partial: 'block_users/journal_actions',
-          locals: {
-            journal: journal,
-            issue: issue,
-            user: journal.user
-          }
-        })
+        # Add JavaScript to inject button into journal actions
+        javascript_tag = <<~JS
+          <script>
+            $(document).ready(function() {
+              var journalId = #{journal.id};
+              var userId = #{journal.user.id};
+              var userName = '#{escape_javascript(journal.user.name)}';
+              
+              // Find the journal actions div for this specific journal
+              var journalDiv = $('#change-#{journal.id}');
+              var actionsDiv = journalDiv.find('.journal-actions, .contextual');
+              
+              if (actionsDiv.length > 0) {
+                // Create delete button
+                var deleteBtn = $('<a href="#" class="icon icon-del delete-user-link" data-user-id="' + userId + '" data-user-name="' + userName + '" title="Benutzer löschen">Benutzer löschen</a>');
+                
+                // Add button to actions
+                actionsDiv.append(' | ').append(deleteBtn);
+              }
+            });
+          </script>
+        JS
+        
+        javascript_tag.html_safe
       end
       
       # Hook to add JavaScript and CSS

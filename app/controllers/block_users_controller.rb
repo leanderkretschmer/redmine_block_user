@@ -47,6 +47,33 @@ class BlockUsersController < ApplicationController
       }, status: :internal_server_error
     end
   end
+  
+  def search_tickets
+    query = params[:q].to_s.strip
+    
+    if query.blank?
+      render json: []
+      return
+    end
+    
+    # Suche nach Tickets basierend auf ID oder Betreff
+    tickets = Issue.visible
+                   .where("id = ? OR LOWER(subject) LIKE ?", 
+                          query.to_i, "%#{query.downcase}%")
+                   .limit(10)
+                   .includes(:project)
+    
+    results = tickets.map do |ticket|
+      {
+        id: ticket.id,
+        subject: ticket.subject,
+        project: ticket.project.name,
+        display: "##{ticket.id} - #{ticket.subject} (#{ticket.project.name})"
+      }
+    end
+    
+    render json: results
+  end
 
   private
 

@@ -56,7 +56,13 @@ sudo service redmine restart
 1. Als Administrator anmelden
 2. Zu "Administration" → "Plugins" navigieren
 3. "Redmine Block User Plugin" finden und auf "Configure" klicken
-4. Ticket-IDs eingeben (kommagetrennt), für die die Funktion aktiviert werden soll
+4. **Tickets hinzufügen**:
+   - **Option 1**: Verwenden Sie die Suchfunktion:
+     - Geben Sie den Ticket-Namen oder die ID in das Suchfeld ein
+     - Wählen Sie das gewünschte Ticket aus den Vorschlägen aus
+     - Klicken Sie auf "Hinzufügen"
+   - **Option 2**: Manuelle Eingabe:
+     - Geben Sie die Ticket-IDs direkt in das Textfeld ein (eine ID pro Zeile)
 5. Einstellungen speichern
 
 ### 2. Fertig!

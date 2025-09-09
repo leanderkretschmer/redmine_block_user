@@ -1,102 +1,103 @@
 /* Redmine Block User Plugin Styles */
 
-.block-user-actions {
-  display: inline-block;
-  margin-left: 10px;
-  vertical-align: middle;
-  position: relative;
-}
-
-.block-user-menu-btn {
-  background: none;
-  border: 1px solid #ddd;
-  color: #666;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 3px;
-  cursor: pointer;
-  line-height: 1;
+/* Delete User Button in Journal Actions */
+.delete-user-link {
+  color: #d30 !important;
+  text-decoration: none;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 2px;
   transition: all 0.2s ease;
 }
 
-.block-user-menu-btn:hover {
+.delete-user-link:hover {
   background-color: #f5f5f5;
-  border-color: #ccc;
-  color: #333;
-}
-
-.block-user-menu-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  z-index: 1000;
-  display: none;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
-  font-size: 13px;
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-}
-
-.dropdown-menu.show {
-  display: block;
-}
-
-.dropdown-item {
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  clear: both;
-  font-weight: normal;
-  line-height: 1.42857143;
-  color: #333;
-  white-space: nowrap;
+  color: #b30 !important;
   text-decoration: none;
-  background-color: transparent;
-  border: 0;
+}
+
+.delete-user-link:before {
+  content: "";
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23d30"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5zM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0 0 1.157h.538L3.7 14.841A.998.998 0 0 0 4.693 16h6.614a.998.998 0 0 0 .993-1.159L12.956 3.657h.538a.58.58 0 0 0 0-1.157H11z"/></svg>') no-repeat;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-right: 4px;
+  vertical-align: text-top;
+}
+
+.delete-user-link:hover:before {
+  filter: brightness(0.8);
+}
+
+/* Ticket Search Styles */
+.ticket-search-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.ticket-search-section p {
+  margin-bottom: 10px;
+}
+
+#ticket_search_input {
+  width: 300px;
+  margin-right: 10px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#add_ticket_btn {
+  padding: 4px 12px;
+  background-color: #169;
+  color: white;
+  border: 1px solid #169;
+  border-radius: 3px;
   cursor: pointer;
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background-color: #f5f5f5;
-  color: #262626;
-  text-decoration: none;
+#add_ticket_btn:hover {
+  background-color: #147;
 }
 
-.dropdown-item i {
-  margin-right: 8px;
-  width: 14px;
-  text-align: center;
+.search-results {
+  position: relative;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
 }
 
-.delete-user-btn {
-  color: #dc3545 !important;
+.search-result-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
 }
 
-.delete-user-btn:hover,
-.delete-user-btn:focus {
-  background-color: #f8d7da !important;
-  color: #721c24 !important;
+.search-result-item:last-child {
+  border-bottom: none;
 }
 
-.delete-user-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
+
+.search-result-item.no-results {
+  color: #666;
+  font-style: italic;
+  cursor: default;
+}
+
+.search-result-item.no-results:hover {
+  background-color: transparent;
 }
 
 /* Integration with Redmine journal styles */
