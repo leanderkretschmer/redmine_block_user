@@ -2,13 +2,13 @@
 
 Ein Redmine 6 Plugin, das es ermöglicht, Benutzer aus spezifischen Tickets zu blockieren/löschen über Kommentar-Aktionen.
 
-## Features
+## Funktionen
 
-- Konfiguration von Ticket-IDs in den Plugin-Einstellungen
-- Ticket-Suchfunktion: Intelligente Suche nach Tickets mit Autocomplete (Name oder ID)
-- Direkter Lösch-Button integriert in die Aktionsleiste der Kommentare
-- Direkte Löschung von Benutzern über Kommentar-Interface
-- Einfache Zugriffskontrolle (nur Anmeldung erforderlich)
+- **Ticket-Suche nach ID**: Einfache Suche nach Tickets über die Ticket-ID
+- **Ticket-Verwaltung**: Hinzufügen und Entfernen von Tickets in der Plugin-Konfiguration
+- **Direkter Lösch-Button**: Integriert in die Aktionsleiste der Kommentare (neben Bearbeiten/Zitieren)
+- **Benutzer-Löschung**: Direkte Löschung von Benutzern über das Kommentar-Interface in konfigurierten Tickets
+- **Einfache Zugriffskontrolle**: Nur Anmeldung erforderlich
 
 ## Installation
 
