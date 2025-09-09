@@ -1,29 +1,23 @@
 <div class="ticket-search-section">
   <p>
-    <%= content_tag :label, l(:label_ticket_search) %>
+    <%= content_tag :label, "Ticket suchen" %>
     <%= text_field_tag 'ticket_search', '', 
                       :id => 'ticket_search_input',
-                      :placeholder => l(:placeholder_ticket_search),
+                      :placeholder => "Ticket-ID eingeben (z.B. 123)",
                       :autocomplete => 'off' %>
-    <%= button_tag l(:button_add_ticket), :type => 'button', :id => 'add_ticket_btn', :class => 'small' %>
   </p>
   
   <div id="search_results" class="search-results" style="display: none;"></div>
 </div>
 
-<p>
-  <%= content_tag :label, l(:label_blocked_ticket_ids) %>
-  <%= text_area_tag 'settings[blocked_ticket_ids]', @settings['blocked_ticket_ids'], 
-                    :rows => 5, :cols => 60, 
-                    :placeholder => l(:placeholder_blocked_ticket_ids),
-                    :id => 'blocked_ticket_ids_textarea' %>
-</p>
+<div class="added-tickets-section">
+  <h3>Hinzugefügte Tickets</h3>
+  <div id="added_tickets_list" class="added-tickets-list">
+    <!-- Hinzugefügte Tickets werden hier angezeigt -->
+  </div>
+  <%= hidden_field_tag 'settings[blocked_ticket_ids]', @settings['blocked_ticket_ids'], :id => 'blocked_ticket_ids_hidden' %>
+</div>
 
 <p class="description">
-  <%= l(:description_blocked_ticket_ids) %>
+  In den oben hinzugefügten Tickets können Benutzer über einen Button in den Kommentaren gelöscht werden.
 </p>
-
-<fieldset class="box">
-  <legend><%= l(:label_usage_info) %></legend>
-  <p><%= l(:text_usage_info) %></p>
-</fieldset>
