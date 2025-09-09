@@ -6,7 +6,7 @@ Ein Redmine 6 Plugin, das es ermöglicht, Benutzer aus spezifischen Tickets zu b
 
 - Konfiguration von Ticket-IDs in den Plugin-Einstellungen
 - Ticket-Suchfunktion: Intelligente Suche nach Tickets mit Autocomplete (Name oder ID)
-- 3-Punkte-Menü bei Kommentaren für Benutzer-Aktionen
+- Direkter Lösch-Button integriert in die Aktionsleiste der Kommentare
 - Direkte Löschung von Benutzern über Kommentar-Interface
 - Einfache Zugriffskontrolle (nur Anmeldung erforderlich)
 
